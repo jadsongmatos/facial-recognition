@@ -11,7 +11,7 @@ const EPOCHS = 50;
 async function app() {
   model = await tmImage.createTeachable(
     { tfjsVersion: tf.version.tfjs },
-    { version: 2 }
+    { version: 2,alpha:1 }
   );
 
   model.setLabels(classLabels);
