@@ -11,27 +11,27 @@ const EPOCHS = 50;
 async function app() {
   model = await tmImage.createTeachable(
     { tfjsVersion: tf.version.tfjs },
-    { version: 2,alpha:1 }
+    { version: 2, alpha: 1 }
   );
 
   model.setLabels(classLabels);
   model.setSeed(SEED_WORD); // set a seed to shuffle predictably
 
   let time = 0;
-  let i = 0
+  let i = 0;
 
   for (const imgSet of imgBill) {
     let croppedImg = cropTo(imgSet, 224, false);
     await model.addExample(0, croppedImg);
     i++;
-    console.log("addExample 0",i);
+    console.log("addExample 0", i);
   }
 
   for (const imgSet of imgEu) {
     let croppedImg = cropTo(imgSet, 224, false);
     await model.addExample(1, croppedImg);
     i++;
-    console.log("addExample 1",i);
+    console.log("addExample 1", i);
   }
 
   const start = window.performance.now();
@@ -43,14 +43,9 @@ async function app() {
       batchSize: 16,
     },
     {
-      onEpochBegin: async (epoch,logs) => {
-        console.log("Epoch: ", epoch,logs);
-      },
-      onEpochEnd: async (epoch) => {
-        model.stopTraining().then(() => {
-          console.log("Stopped training early :", epoch);
-        });
-      },
+      onEpochBegin: async (epoch, logs) => {
+        console.log("Epoch: ", epoch);
+      }
     }
   );
   const end = window.performance.now();
