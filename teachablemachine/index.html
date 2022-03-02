@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>Teachable Machine Image Model</div>
+    <!-- Import TensorFlow.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.13.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-vis@1.5.1/dist/tfjs-vis.umd.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@3.13.0/dist/tf-backend-wasm.min.js"
+      integrity="sha256-Gp/Jd1NvWFaYhOxx7p/EL6NQjcAPkcncNTPzvXw4+zA="
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8.5/dist/teachablemachine-image.min.js"></script>
+
+    <img id="bill" data-train="bill" src="/bill.png" width="200" height="200" />
+    <img id="bill2" data-train="bill" src="/bill2.png" width="200" height="200" />
+    <img id="bill3" data-train="bill" src="/bill3.png" width="200" height="200" />
+    <img id="eu" data-train="eu" src="/eu.png" width="200" height="200" />
+    <img id="eu2" data-train="eu" src="/eu2.png" width="200" height="200" />
+    <img id="eu3" data-train="eu" src="/eu3.png" width="200" height="200" />
+    <img id="eu4" data-input src="/eu4.png" width="200" height="200" />
+    <script src="main.js"></script>
+  </body>
+</html>

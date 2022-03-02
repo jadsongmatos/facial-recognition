@@ -37,6 +37,16 @@ async function app() {
   classifierTop.addExample(predictionsEu2[0].topLeft, 0);
   classifierBottom.addExample(predictionsEu2[0].bottomRight, 0);
 
+  const predictionsEu3 = await model.estimateFaces(
+    document.getElementById("eu3"),
+    returnTensors,
+    flipHorizontal,
+    annotateBoxes
+  );
+
+  classifierTop.addExample(predictionsEu3[0].topLeft, 0);
+  classifierBottom.addExample(predictionsEu3[0].bottomRight, 0);
+
   const predictionsBill = await model.estimateFaces(
     document.getElementById("bill"),
     returnTensors,
@@ -67,19 +77,22 @@ async function app() {
   classifierTop.addExample(predictionsBill3[0].topLeft, 1);
   classifierBottom.addExample(predictionsBill3[0].bottomRight, 1);
 
-  const predictionsEu3 = await model.estimateFaces(
-    document.getElementById("eu3"),
+  const predictionsEu4 = await model.estimateFaces(
+    document.getElementById("eu4"),
     returnTensors,
     flipHorizontal,
     annotateBoxes
   );
 
-  const resultTop = await classifierTop.predictClass(predictionsEu3[0].topLeft);
+  const resultTop = await classifierTop.predictClass(predictionsEu4[0].topLeft);
   console.log(resultTop);
+  console.log("top activation", await predictionsEu4[0].topLeft.array());
+
   const resultBottom = await classifierBottom.predictClass(
-    predictionsEu3[0].bottomRight
+    predictionsEu4[0].bottomRight
   );
   console.log(resultBottom);
+  console.log("bottom activation", await predictionsEu4[0].bottomRight.array());
 }
 
 app();
