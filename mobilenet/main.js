@@ -26,9 +26,17 @@ async function app() {
 
   // Get the most likely class and confidence from the classifier module.
   const inferEu4 = model.infer(document.getElementById("eu4"), "conv_preds");
-  const result = await classifier.predictClass(inferEu4);
-  console.log(result);
-  console.log("activation", await inferEu4.array());
+  const model_predict_input = await classifier.predictClass(inferEu4);
+  console.log(model_predict_input)
+  let result_input = 0;
+  let max = 1;
+  Object.values(model_predict_input.confidences).forEach((categories) => {
+    result_input = result_input + categories;
+    if (categories > max) {
+      max = categories;
+    }
+  });
+  console.log("result:",result_input / max,"max:",max);
 }
 
 app();

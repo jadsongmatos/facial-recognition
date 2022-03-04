@@ -6,7 +6,16 @@ const imgEu = Array.from(document.querySelectorAll('img[data-train="eu"]'));
 
 const SEED_WORD = "testSuite";
 const LEARNING_RATE = 0.001;
-const EPOCHS = 50;
+const EPOCHS = 1000;
+
+const surface = { name: "show.fitCallbacks", tab: "Training" };
+
+const callbacks = {
+  onEpochEnd: async (epoch, logs) => {
+    tfvis.show.fitCallbacks(epoch, logs);
+    console.log("epoch: " + epoch + JSON.stringify(logs));
+  },
+};
 
 async function app() {
   model = await tmImage.createTeachable(
@@ -15,6 +24,9 @@ async function app() {
   );
 
   model.setLabels(classLabels);
+
+  //tfvis.show.modelSummary(surface, model);
+
   model.setSeed(SEED_WORD); // set a seed to shuffle predictably
 
   let time = 0;
@@ -41,20 +53,33 @@ async function app() {
       epochs: EPOCHS,
       learningRate: LEARNING_RATE,
       batchSize: 16,
+      //callbacks: tfvis.show.fitCallbacks(surface, ["loss", "acc"]), //callbacks
     },
     {
       onEpochBegin: async (epoch, logs) => {
         console.log("Epoch: ", epoch);
-      }
+      },
     }
   );
+
   const end = window.performance.now();
   time = end - start;
   console.log(time);
 
-  console.log(await model.predict(document.querySelector("img[data-input]")));
+  const model_predict_input = await model.predict(
+    document.querySelector("img[data-input]")
+  );
 
-  console.log(await model.predict(document.getElementById("eu3")));
+  let result_input = 0;
+  let max = 1;
+  model_predict_input.forEach((categories) => {
+    result_input = result_input + categories.probability;
+    if (categories.probability > max) {
+      max = categories.probability;
+    }
+  });
+
+  console.log("result:",result_input / max,"max:",max);
 }
 app();
 
