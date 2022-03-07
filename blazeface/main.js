@@ -11,88 +11,58 @@ async function app() {
   const flipHorizontal = false;
   const annotateBoxes = true;
 
-  const predictionsEu = await model.estimateFaces(
-    document.getElementById("eu"),
+  let predictions
+
+  predictions = await model.estimateFaces(
+    document.getElementById("angelina_jolie"),
     returnTensors,
     flipHorizontal,
     annotateBoxes
   );
 
-  console.log(predictionsEu);
-
-  if (predictionsEu.length == 1) {
-    if (predictionsEu[0].probability > 90) {
-      classifierTop.addExample(predictionsEu[0].topLeft, 0);
-      classifierBottom.addExample(predictionsEu[0].bottomRight, 0);
+  if (predictions.length == 1) {
+    if (predictions[0].probability > 90) {
+      classifierTop.addExample(predictions[0].topLeft, "angelina_jolie");
+      classifierBottom.addExample(predictions[0].bottomRight, "angelina_jolie");
     }
   }
 
-  const predictionsEu2 = await model.estimateFaces(
-    document.getElementById("eu2"),
+  predictions = await model.estimateFaces(
+    document.getElementById("bill_gates"),
     returnTensors,
     flipHorizontal,
     annotateBoxes
   );
 
-  classifierTop.addExample(predictionsEu2[0].topLeft, 0);
-  classifierBottom.addExample(predictionsEu2[0].bottomRight, 0);
+  classifierTop.addExample(predictions[0].topLeft, "bill_gates");
+  classifierBottom.addExample(predictions[0].bottomRight, "bill_gates");
 
-  const predictionsEu3 = await model.estimateFaces(
-    document.getElementById("eu3"),
+  predictions = await model.estimateFaces(
+    document.getElementById("neymar"),
     returnTensors,
     flipHorizontal,
     annotateBoxes
   );
 
-  classifierTop.addExample(predictionsEu3[0].topLeft, 0);
-  classifierBottom.addExample(predictionsEu3[0].bottomRight, 0);
+  classifierTop.addExample(predictions[0].topLeft, "neymar");
+  classifierBottom.addExample(predictions[0].bottomRight, "neymar");
 
-  const predictionsBill = await model.estimateFaces(
-    document.getElementById("bill"),
+  predictions = await model.estimateFaces(
+    document.getElementById("lenna"),
     returnTensors,
     flipHorizontal,
     annotateBoxes
   );
 
-  classifierTop.addExample(predictionsBill[0].topLeft, 1);
-  classifierBottom.addExample(predictionsBill[0].bottomRight, 1);
-
-  const predictionsBill2 = await model.estimateFaces(
-    document.getElementById("bill2"),
-    returnTensors,
-    flipHorizontal,
-    annotateBoxes
-  );
-
-  classifierTop.addExample(predictionsBill2[0].topLeft, 1);
-  classifierBottom.addExample(predictionsBill2[0].bottomRight, 1);
-
-  const predictionsBill3 = await model.estimateFaces(
-    document.getElementById("bill3"),
-    returnTensors,
-    flipHorizontal,
-    annotateBoxes
-  );
-
-  classifierTop.addExample(predictionsBill3[0].topLeft, 1);
-  classifierBottom.addExample(predictionsBill3[0].bottomRight, 1);
-
-  const predictionsEu4 = await model.estimateFaces(
-    document.getElementById("eu4"),
-    returnTensors,
-    flipHorizontal,
-    annotateBoxes
-  );
-
-  const resultTop = await classifierTop.predictClass(predictionsEu4[0].topLeft);
+  const resultTop = await classifierTop.predictClass(predictions[0].topLeft);
   console.log(resultTop);
-  console.log("top activation", await predictionsEu4[0].topLeft.array());
+  //console.log("top activation", await predictions[0].topLeft.array());
 
   const resultBottom = await classifierBottom.predictClass(
-    predictionsEu4[0].bottomRight
+    predictions[0].bottomRight
   );
   console.log(resultBottom);
-  console.log("bottom activation", await predictionsEu4[0].bottomRight.array());
+  //console.log("bottom activation", await predictions[0].bottomRight.array());
 }
 
 app();

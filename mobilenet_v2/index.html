@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>blazeface</title>
+    <title>mobilenet_v2</title>
     <!-- Import TensorFlow.js -->
     <script
       src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.14.0/dist/tf.min.js"
@@ -21,12 +21,13 @@
       crossorigin="anonymous"
     ></script>
     <script
-      src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface@0.0.7/dist/blazeface.min.js"
-      integrity="sha256-+A2N5er2W+y5eq5LwiwA6KCQNp4Tf0IUfPNwyYtvm+o="
+      src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@2.1.0/dist/mobilenet.min.js"
+      integrity="sha256-EXspgjh3k1SmN8SE4gUzNmXv/e8ud9CFJfrjeZ/HaEw="
       crossorigin="anonymous"
     ></script>
   </head>
   <body>
+    <h2>result in console</h2>
     <!-- Add an image that we will use to test -->
     <img
       id="angelina_jolie"
@@ -34,9 +35,9 @@
       height="33%"
       width="33%"
     />
-    <img id="bill_gates" src="/img/bill_gates.jpg" height="25%" width="25%" />
-    <img id="neymar" src="/img/neymar.jpg" height="25%" width="25%" />
-    <img id="lenna" src="/img/lenna.png" height="25%" width="25%" />
+    <img id="bill_gates" src="/img/bill_gates.jpg" height="33%" width="33%" />
+    <img id="neymar" src="/img/neymar.jpg" height="33%" width="33%" />
+    <img data-input src="/img/lenna.png" height="33%" width="33%" />
     <!-- Load index.js after the content of the page -->
     <script src="main.js"></script>
   </body>

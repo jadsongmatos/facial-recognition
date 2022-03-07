@@ -4,28 +4,37 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <div>Teachable Machine Image Model</div>
+    <title>Teachable Machine Image Model</title>
     <!-- Import TensorFlow.js -->
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.13.0/dist/tf.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-vis@1.5.1/dist/tfjs-vis.umd.min.js"></script>
     <script
-      src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@3.13.0/dist/tf-backend-wasm.min.js"
-      integrity="sha256-Gp/Jd1NvWFaYhOxx7p/EL6NQjcAPkcncNTPzvXw4+zA="
+      src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.14.0/dist/tf.min.js"
+      integrity="sha256-fjBpIoy3kA6plxi9mPG03oTJQfbChQahABmJ4gx0Jls="
       crossorigin="anonymous"
     ></script>
-
+    <script
+      src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@3.14.0/dist/tf-backend-wasm.min.js"
+      integrity="sha256-us4UMqcK0cpbaW0wsmXVTefzHc7doRTtnSPFOM15PhA="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-vis@1.5.1/dist/tfjs-vis.umd.min.js"
+      integrity="sha256-qp+MJqHjqWN5L09l6gTFvHhfPvHZAB+c61vy1dOrKs4="
+      crossorigin="anonymous"
+    ></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8.5/dist/teachablemachine-image.min.js"></script>
-
-    <img id="bill" data-train="bill" src="/bill.png" width="200" height="200" />
-    <img id="bill2" data-train="bill" src="/bill2.png" width="200" height="200" />
-    <img id="bill3" data-train="bill" src="/bill3.png" width="200" height="200" />
-    <img id="eu" data-train="eu" src="/eu.png" width="200" height="200" />
-    <img id="eu2" data-train="eu" src="/eu2.png" width="200" height="200" />
-    <img id="eu3" data-train="eu" src="/eu3.png" width="200" height="200" />
-    <img id="eu4" data-input src="/eu4.png" width="200" height="200" />
+  </head>
+  <body>
+    <h1>Teachable Machine Image Model</h1>
+    <h2>result in console</h2>
+    <img
+      id="angelina_jolie"
+      src="/img/angelina_jolie.jpg"
+      height="25%"
+      width="25%"
+    />
+    <img id="bill_gates" src="/img/bill_gates.jpg" height="25%" width="25%" />
+    <img id="neymar" src="/img/neymar.jpg" height="25%" width="25%" />
+    <img id="lenna" src="/img/lenna.png" height="25%" width="25%" />
     <script src="main.js"></script>
   </body>
 </html>

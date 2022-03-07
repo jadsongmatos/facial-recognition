@@ -1,12 +1,10 @@
 var model;
 // 1. Setup dataset parameters
-const classLabels = ["bill", "eu"];
-const imgBill = Array.from(document.querySelectorAll('img[data-train="bill"]'));
-const imgEu = Array.from(document.querySelectorAll('img[data-train="eu"]'));
+const classLabels = ["angelina_jolie", "bill_gates", "neymar"];
 
 const SEED_WORD = "testSuite";
 const LEARNING_RATE = 0.001;
-const EPOCHS = 1000;
+const EPOCHS = 100;
 
 const surface = { name: "show.fitCallbacks", tab: "Training" };
 
@@ -16,6 +14,29 @@ const callbacks = {
     console.log("epoch: " + epoch + JSON.stringify(logs));
   },
 };
+
+function preprocess(imageTensor) {
+  const widthToHeight = imageTensor.shape[1] / imageTensor.shape[0];
+  let squareCrop;
+  if (widthToHeight > 1) {
+    const heightToWidth = imageTensor.shape[0] / imageTensor.shape[1];
+    const cropTop = (1 - heightToWidth) / 2;
+    const cropBottom = 1 - cropTop;
+    squareCrop = [[cropTop, 0, cropBottom, 1]];
+  } else {
+    const cropLeft = (1 - widthToHeight) / 2;
+    const cropRight = 1 - cropLeft;
+    squareCrop = [[0, cropLeft, 1, cropRight]];
+  }
+  // Expand image input dimensions to add a batch dimension of size 1.
+  const crop = tf.image.cropAndResize(
+    tf.expandDims(imageTensor),
+    squareCrop,
+    [0],
+    [224, 224]
+  );
+  return crop.div(255);
+}
 
 async function app() {
   model = await tmImage.createTeachable(
@@ -29,22 +50,18 @@ async function app() {
 
   model.setSeed(SEED_WORD); // set a seed to shuffle predictably
 
-  let time = 0;
-  let i = 0;
-
-  for (const imgSet of imgBill) {
-    let croppedImg = cropTo(imgSet, 224, false);
-    await model.addExample(0, croppedImg);
-    i++;
-    console.log("addExample 0", i);
-  }
-
-  for (const imgSet of imgEu) {
-    let croppedImg = cropTo(imgSet, 224, false);
-    await model.addExample(1, croppedImg);
-    i++;
-    console.log("addExample 1", i);
-  }
+  await model.addExample(
+    0,
+    preprocess(tf.browser.fromPixels(document.getElementById("angelina_jolie")))
+  );
+  await model.addExample(
+    1,
+    preprocess(tf.browser.fromPixels(document.getElementById("bill_gates")))
+  );
+  await model.addExample(
+    2,
+    preprocess(tf.browser.fromPixels(document.getElementById("neymar")))
+  );
 
   const start = window.performance.now();
   await model.train(
@@ -62,13 +79,13 @@ async function app() {
     }
   );
 
-  const end = window.performance.now();
-  time = end - start;
-  console.log(time);
+  console.log(window.performance.now() - start);
 
   const model_predict_input = await model.predict(
-    document.querySelector("img[data-input]")
+    document.getElementById("lenna")
   );
+
+  console.log(model_predict_input);
 
   let result_input = 0;
   let max = 1;
@@ -79,32 +96,6 @@ async function app() {
     }
   });
 
-  console.log("result:",result_input / max,"max:",max);
+  console.log("result:", result_input / max, "max:", max);
 }
 app();
-
-const newCanvas = () => document.createElement("canvas");
-
-function cropTo(image, size, flipped = false, canvas = newCanvas()) {
-  // image image, bitmap, or canvas
-  let width = image.width;
-  let height = image.height;
-
-  const min = Math.min(width, height);
-  const scale = size / min;
-  const scaledW = Math.ceil(width * scale);
-  const scaledH = Math.ceil(height * scale);
-  const dx = scaledW - size;
-  const dy = scaledH - size;
-  canvas.width = canvas.height = size;
-  const ctx = canvas.getContext("2d");
-  ctx.drawImage(image, ~~(dx / 2) * -1, ~~(dy / 2) * -1, scaledW, scaledH);
-
-  // canvas is already sized and cropped to center correctly
-  if (flipped) {
-    ctx.scale(-1, 1);
-    ctx.drawImage(canvas, size * -1, 0);
-  }
-
-  return canvas;
-}
